@@ -1,18 +1,27 @@
+from prato import Prato
+from erros import *
+
 class Menu:
-    def __init__(self,preco,descricao):
+    def __init__(self):
         self.Lista_Prato = []
-        self.preco = preco  
-        self.descricao = descricao
-        pass
     
-    def adicionar_prato(self,prato):
-        self.Lista_Prato.append(prato)
-        pass
+    def adicionar_prato(self,prato):  
+        try:
+            if not isinstance(prato, Prato):
+                raise TypeError("O objeto deve ser uma instância de Prato.")
+            if prato in self.Lista_Prato:
+                raise PratoJaAdicionadoError("O prato já foi adicionado ao menu.")
+            self.Lista_Prato.append(prato)
+            print("Prato adicionado com sucesso!")
+        except (TypeError, PratoJaAdicionadoError) as e:
+            print(f"Erro ao adicionar o prato: {e}")
 
     def remover_prato(self,prato):
-        self.Lista_Prato.remove(prato)
-        pass            
-
-    def atualizar_prato(self,prato):
-        #dps que criar class prato, terminar essa
-        pass    
+        try:
+            if prato in self.Lista_Prato:
+                raise PratoNaoEncontradoError("Erro: prato não encontrado na lista.")
+            self.Lista_Prato.remove(prato)
+            print("Prato removido com sucesso!")
+        except PratoNaoEncontradoError as e:
+            print(f"Erro ao remover o prato: {e}")           
+    
